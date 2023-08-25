@@ -7,6 +7,10 @@ using Microsoft.Extensions.Configuration;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.Intrinsics.Arm;
 using MeuLivroDeReceitas.Infrastructure;
+using MeuLivroDeReceitas.Api.Filtros;
+using AutoMapper;
+using MeuLivroDeReceitas.Application.Servicos.Automapper;
+using MeuLivroDeReceitas.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddRepositorio(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltrosDasExceptions)));
+// qualquer excecao que for lancada vai ser executada a classe FiltrosDasExceptions
+
+builder.Services.AddScoped(provider => new MapperConfiguration(config => {
+    config.AddProfile(new AutoMapperConfiguracao());
+}).CreateMapper());
 
 var app = builder.Build();
 

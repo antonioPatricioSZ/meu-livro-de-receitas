@@ -1,31 +1,22 @@
+using MeuLivroDeReceitas.Application.UseCases.Usuario.Registrar;
+using MeuLivroDeReceitas.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeuLivroDeReceitas.Api.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class WeatherForecastController : ControllerBase
-{
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+public class WeatherForecastController : ControllerBase {
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    [HttpGet]
+    public async Task<IActionResult> Get([FromServices] IRegistrarUsuarioUseCase useCase) {
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    {
-        _logger = logger;
-    }
-
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
-    {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        var resposta = await useCase.Executar(new Comunicacao.Requisicoes.RequisicaoRegistrarUsuarioJson
         {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+            Email = "patricio@gmail.com",
+            Nome = "Patricio",
+            Senha = "123456",
+            Telefone = "34 9 9876-9843"
+        });
+        return Ok(resposta);
     }
 }
