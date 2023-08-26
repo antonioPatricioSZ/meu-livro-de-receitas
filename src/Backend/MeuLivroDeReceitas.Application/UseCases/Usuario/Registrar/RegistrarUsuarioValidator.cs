@@ -38,7 +38,7 @@ public class RegistrarUsuarioValidator : AbstractValidator<RequisicaoRegistrarUs
 
         When(requisicao => !string.IsNullOrWhiteSpace(requisicao?.Telefone), () => {
             RuleFor(requisicao => requisicao.Telefone).Custom((telefone, context) => {
-                var telefonePadrao = "(\\(?[1-9]{2}\\)?)(9)(\\d{4,5}\\-?\\d{4})";
+                var telefonePadrao = "(\\d{2}9\\d{4}\\d{4})";
                 var isMatch = Regex.IsMatch(telefone, telefonePadrao);
                 if (!isMatch) {
                     context.AddFailure(

@@ -3,20 +3,18 @@ using MeuLivroDeReceitas.Comunicacao.Requisicoes;
 
 namespace Utilitario.ParaOsTestes.Requisicoes;
 
-
-public class RequisicaoResgistrarUsuarioBuilder {
-
-    public static RequisicaoRegistrarUsuarioJson Construir(int tamanho = 10) {
-
+public class RequisicaoRegistrarUsuarioBuilder
+{
+    public static RequisicaoRegistrarUsuarioJson Construir(int tamanhoSenha = 10)
+    {
         return new Faker<RequisicaoRegistrarUsuarioJson>()
-            .RuleFor(requisicao => requisicao.Nome, f => f.Person.FullName)
-            .RuleFor(requisicao => requisicao.Email, f => f.Internet.Email())
-            .RuleFor(requisicao => requisicao.Senha, f => f.Internet.Password(tamanho))
+            .RuleFor(c => c.Nome, f => f.Person.FullName)
+            .RuleFor(c => c.Email, f => f.Internet.Email())
+            .RuleFor(c => c.Senha, f => f.Internet.Password(tamanhoSenha))
             .RuleFor(
                 requisicao => requisicao.Telefone, f => f.Phone.PhoneNumber(
                     "!#9########"
                 ).Replace("!", $"{f.Random.Int(min: 1, max: 9)}")
             );
     }
-
 }

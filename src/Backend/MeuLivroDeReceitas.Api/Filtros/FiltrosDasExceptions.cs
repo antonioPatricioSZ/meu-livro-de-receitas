@@ -15,15 +15,7 @@ public class FiltrosDasExceptions : IExceptionFilter {
         if(context.Exception is MeuLivroDeReceitasException) {
             TratarMeuLivroDeReceitasException(context);
         } else {
-            try {
-
-            } catch (Exception ex) {
-                var errosDeValidacaoException = context.Exception as ErrosDeValidacaoException;
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.Result = new ObjectResult(
-                    new RespostaErroJson(ex.Message)
-                );
-            }
+            LancarErroDesconhecido(context);
         }
 
     }
