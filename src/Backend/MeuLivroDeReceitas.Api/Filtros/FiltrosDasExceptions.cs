@@ -25,6 +25,8 @@ public class FiltrosDasExceptions : IExceptionFilter {
         
         if(context.Exception is ErrosDeValidacaoException) {
             TratarErrosDeValidacaoException(context);
+        } else if(context.Exception is LoginInvalidoException) {
+            TratarLginException(context);
         }
 
     }
@@ -35,6 +37,15 @@ public class FiltrosDasExceptions : IExceptionFilter {
         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
         context.Result = new ObjectResult(
             new RespostaErroJson(errosDeValidacaoException?.MensagensDeErro)
+        );
+    }
+
+
+    private void TratarLginException(ExceptionContext context) {
+        var loginInvalidoException = context.Exception as LoginInvalidoException;
+        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+        context.Result = new ObjectResult(
+            new RespostaErroJson(loginInvalidoException.Message)
         );
     }
 
