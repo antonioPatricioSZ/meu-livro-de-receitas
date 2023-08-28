@@ -11,6 +11,7 @@ using MeuLivroDeReceitas.Api.Filtros;
 using AutoMapper;
 using MeuLivroDeReceitas.Application.Servicos.Automapper;
 using MeuLivroDeReceitas.Application;
+using MeuLivroDeReceitas.Infrastructure.AcessoRepositorio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,25 +55,39 @@ app.Run();
 
 
 void AtualizarBaseDeDados() {
-    var conexao = builder.Configuration.GetConexao();
-    var nomeDatabase = builder.Configuration.GetNomeDatabase();
 
-    // E ao invés de chamar connection string, nós chamamos uma função nossa. Ou seja, a 
-    // gente vai implementar uma função para ser chamada como se fosse uma função 
-    // dessa variável Configuration.
+    using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-    // Todo método que você for fazer para chamar dessa forma de uma variável digamos 
-    // que não é sua que não foi você criou. E, no caso de Configuration Manager, é uma 
-    // uma classe interna do dotnet. Então a gente chama isso de extensão, ok.
+    using var context = serviceScope.ServiceProvider.GetService<MeuLivroDeReceitasContext>();
 
-    // Como que seu método? Como ele vai saber que isso aqui é uma classe de extensão, 
-    // ou seja. Você vai ter acesso a essa função a partir de uma classe
-    // que implementa esse IConfiguration, porque ele usa esse modificador this antes 
-    // ok, se você tirar ou não utilizar o this, não vai funcionar. Esse this significa 
-    // que esse método é uma extensão e essa variável (configuration de IConfiguration)
-    // aqui é exatamente a variável que você está usando para chamar essa função.
+    bool? databaseInMemory = context?.Database?.ProviderName?.Equals(
+        "Microsoft.EntityFrameworkCore.InMemory");
 
-    Database.CriarDatabase(conexao, nomeDatabase);
+    if (!databaseInMemory.HasValue || !databaseInMemory.Value) {
+        var conexao = builder.Configuration.GetConexao();
+        var nomeDatabase = builder.Configuration.GetNomeDatabase();
 
-    app.MigrateBancoDeDados();
+        // E ao invés de chamar connection string, nós chamamos uma função nossa. Ou seja, a 
+        // gente vai implementar uma função para ser chamada como se fosse uma função 
+        // dessa variável Configuration.
+
+        // Todo método que você for fazer para chamar dessa forma de uma variável digamos 
+        // que não é sua que não foi você criou. E, no caso de Configuration Manager, é uma 
+        // uma classe interna do dotnet. Então a gente chama isso de extensão, ok.
+
+        // Como que seu método? Como ele vai saber que isso aqui é uma classe de extensão, 
+        // ou seja. Você vai ter acesso a essa função a partir de uma classe
+        // que implementa esse IConfiguration, porque ele usa esse modificador this antes 
+        // ok, se você tirar ou não utilizar o this, não vai funcionar. Esse this significa 
+        // que esse método é uma extensão e essa variável (configuration de IConfiguration)
+        // aqui é exatamente a variável que você está usando para chamar essa função.
+
+        Database.CriarDatabase(conexao, nomeDatabase);
+
+        app.MigrateBancoDeDados();
+    }
+
 }
+
+
+public partial class Program { }
