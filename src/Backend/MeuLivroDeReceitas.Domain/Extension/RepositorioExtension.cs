@@ -1,5 +1,4 @@
-﻿using System.Runtime.Intrinsics.X86;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace MeuLivroDeReceitas.Domain.Extension;
 public static class RepositorioExtension {
