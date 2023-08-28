@@ -25,6 +25,12 @@ public class UsuarioRepositorio : IUsuarioWriteOnlyRepositorio, IUsuarioReadOnly
         var result = await _context.Usuarios.AnyAsync(usuario => usuario.Email.Equals(email));
         return result;
     }
+
+    public async Task<Usuario> Login(string email, string senha) {
+        return await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(
+            usuario => usuario.Email.Equals(email) && usuario.Senha.Equals(senha)
+        );
+    }
 }
 
 // O usuário salvou com sucesso. E o contato de emergência quando foi colocar na tabela.
