@@ -58,7 +58,7 @@ public class AlterarSenhaTokenInvalido : ControllerBase
     [Fact]
     public async Task Validar_Erro_Token_Usuario_Fake() {
 
-        var token = TokenControllerBuilder.Instancia().GerarToken("usuario#fake.com");
+        var token = TokenControllerBuilder.Instancia().GerarToken("usuario@fake.com");
 
         var requisicao = RequisicaoAlterarSenhaUsuarioBuilder.Construir();
         requisicao.SenhaAtual = _senha;
