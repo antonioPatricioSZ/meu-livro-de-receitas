@@ -1,22 +1,20 @@
-using System.Runtime.Intrinsics.X86;
-using System.Security.Cryptography;
-using System;
-using MeuLivroDeReceitas.Domain.Extension;
-using MeuLivroDeReceitas.Infrastructure.Migrations;
-using Microsoft.Extensions.Configuration;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.Intrinsics.Arm;
-using MeuLivroDeReceitas.Infrastructure;
-using MeuLivroDeReceitas.Api.Filtros;
 using AutoMapper;
-using MeuLivroDeReceitas.Application.Servicos.Automapper;
+using MeuLivroDeReceitas.Api.Filtros;
+using MeuLivroDeReceitas.Api.Middleware;
 using MeuLivroDeReceitas.Application;
+using MeuLivroDeReceitas.Application.Servicos.Automapper;
+using MeuLivroDeReceitas.Domain.Extension;
+using MeuLivroDeReceitas.Infrastructure;
 using MeuLivroDeReceitas.Infrastructure.AcessoRepositorio;
+using MeuLivroDeReceitas.Infrastructure.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRouting(config => config.LowercaseUrls = true);
+
+builder.Services.AddHttpContextAccessor();
+// Agora posso pegar os dados que vem da request, o token por exemplo
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddRepositorio(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltrosDasExceptions)));
@@ -33,6 +31,10 @@ builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltrosDasExceptio
 builder.Services.AddScoped(provider => new MapperConfiguration(config => {
     config.AddProfile(new AutoMapperConfiguracao());
 }).CreateMapper());
+
+
+builder.Services.AddScoped<UsuarioAutenticadoAttribute>();
+
 
 var app = builder.Build();
 
@@ -50,6 +52,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 AtualizarBaseDeDados();
+
+app.UseMiddleware<CultureMiddleware>();
 
 app.Run();
 
@@ -89,5 +93,6 @@ void AtualizarBaseDeDados() {
 
 }
 
-
+#pragma warning disable CA1050, S3903, S1118
 public partial class Program { }
+#pragma warning restore CA1050, S3903, S1118

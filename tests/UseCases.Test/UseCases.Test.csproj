@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Backend\MeuLivroDeReceitas.Application\MeuLivroDeReceitas.Application.csproj" />
+    <ProjectReference Include="..\..\src\Backend\MeuLivroDeReceitas.Domain\MeuLivroDeReceitas.Domain.csproj" />
     <ProjectReference Include="..\Utilitario.ParaOsTestes\Utilitario.ParaOsTestes.csproj" />
   </ItemGroup>
 

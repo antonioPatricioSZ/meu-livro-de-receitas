@@ -2,6 +2,7 @@
 using FluentMigrator.Runner;
 using MeuLivroDeReceitas.Domain.Extension;
 using MeuLivroDeReceitas.Domain.Repositorios;
+using MeuLivroDeReceitas.Domain.Repositorios.Usuario;
 using MeuLivroDeReceitas.Infrastructure.AcessoRepositorio;
 using MeuLivroDeReceitas.Infrastructure.AcessoRepositorio.Repositorio;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace MeuLivroDeReceitas.Infrastructure;
 
 public static class Bootstrapper {
 
-    public static void AddRepositorio(this IServiceCollection services, IConfiguration configuration) {
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration) {
         AddFluentMigrator(services, configuration);
 
         AddContext(services, configuration);
@@ -24,7 +25,7 @@ public static class Bootstrapper {
 
     private static void AddContext(IServiceCollection services, IConfiguration configuration) {
 
-        bool.TryParse(
+        _ = bool.TryParse(
             configuration.GetSection(
                 "Configuracoes:BancoDeDadosInMemory"
             ).Value,
@@ -49,11 +50,12 @@ public static class Bootstrapper {
 
     private static void AddRepositorios(IServiceCollection services) {
         services.AddScoped<IUsuarioWriteOnlyRepositorio, UsuarioRepositorio>()
-            .AddScoped<IUsuarioReadOnlyRepositorio, UsuarioRepositorio>();
+            .AddScoped<IUsuarioReadOnlyRepositorio, UsuarioRepositorio>()
+            .AddScoped<IUsuarioUpdateOnlyRepositorio, UsuarioRepositorio>();
     }
 
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configuration) {
-        bool.TryParse(
+        _ = bool.TryParse(
            configuration.GetSection(
                "Configuracoes:BancoDeDadosInMemory"
            ).Value,

@@ -7,7 +7,12 @@ namespace Utilitario.ParaOsTestes.Token;
 public class TokenControllerBuilder {
 
     public static TokenController Instancia() {
-        return new TokenController(1000, "MEMkR3ZMJVM4RDF5XnNjWDZiMTZQSVcqa2skd3JmdU85Yk0hMiR1eV5CM1dTZ0pMdWY=");
+        return new TokenController(1000, "KWk4TWprQHdVZC5RY2hkUCw2Xml8dUlZKC0uPkEobDdRLm9+VWM1eENteiNXN1VaMV0hczJrfkJAVyolWnkk");
+    }
+
+    public static TokenController TokenExpirado()
+    {
+        return new TokenController(0.0166667, "KWk4TWprQHdVZC5RY2hkUCw2Xml8dUlZKC0uPkEobDdRLm9+VWM1eENteiNXN1VaMV0hczJrfkJAVyolWnkk");
     }
 
 }

@@ -1,12 +1,11 @@
-﻿using MeuLivroDeReceitas.Domain.Repositorios;
+﻿using MeuLivroDeReceitas.Domain.Repositorios.Usuario;
 using Moq;
 
 namespace Utilitario.ParaOsTestes.Repositorios;
 
 
+public class UsuarioWriteOnlyRepositorioBuilder { 
 
-public class UsuarioWriteOnlyRepositorioBuilder
-{
     private static UsuarioWriteOnlyRepositorioBuilder _instance;
     private readonly Mock<IUsuarioWriteOnlyRepositorio> _repositorio;
 
