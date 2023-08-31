@@ -1,15 +1,14 @@
-﻿using System.Runtime.ConstrainedExecution;
-using System.Runtime.Intrinsics.X86;
-using System;
-using MeuLivroDeReceitas.Domain.Entidades;
-using MeuLivroDeReceitas.Domain.Repositorios;
+﻿using MeuLivroDeReceitas.Domain.Entidades;
+using MeuLivroDeReceitas.Domain.Repositorios.Usuario;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MeuLivroDeReceitas.Infrastructure.AcessoRepositorio.Repositorio;
 
 
-public class UsuarioRepositorio : IUsuarioWriteOnlyRepositorio, IUsuarioReadOnlyRepositorio {
+public class UsuarioRepositorio : 
+    IUsuarioWriteOnlyRepositorio, 
+    IUsuarioReadOnlyRepositorio, 
+    IUsuarioUpdateOnlyRepositorio {
 
     private readonly MeuLivroDeReceitasContext _context;
 
@@ -30,6 +29,22 @@ public class UsuarioRepositorio : IUsuarioWriteOnlyRepositorio, IUsuarioReadOnly
         return await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(
             usuario => usuario.Email.Equals(email) && usuario.Senha.Equals(senha)
         );
+    }
+
+    public async Task<Usuario> RecuperarPorEmail(string email) {
+        return await _context.Usuarios.AsNoTracking()
+            .FirstOrDefaultAsync(usuario => usuario.Email.Equals(email));
+        // qdo for retornar uma entidade que a funcao é apenas leitura usar o AsNoTracking()
+    }
+
+    public async Task<Usuario> RecuperarPorId(long id) {
+        return await _context.Usuarios
+           .FirstOrDefaultAsync(usuario => usuario.Id == id);
+        // Usar o Equals() qdo for uma string
+    }
+
+    public void Update(Usuario usuario) {
+        _context.Usuarios.Update(usuario);
     }
 }
 
