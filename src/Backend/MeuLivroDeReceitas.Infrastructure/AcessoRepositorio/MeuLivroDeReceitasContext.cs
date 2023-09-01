@@ -12,6 +12,9 @@ public class MeuLivroDeReceitasContext : DbContext {
     // o base é o proprio DbContext
 
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Receita> Receitas { get; set; }
+    public DbSet<Ingrediente> Ingredientes { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeuLivroDeReceitasContext).Assembly);
