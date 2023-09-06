@@ -32,7 +32,7 @@ public class AtualizarReceitaUseCase : IAtualizarReceitaUseCase {
         var usuarioLogado = await _usuarioLogado.RecuperarUsuario();
         var receita = await _repositorio.RecuperarPorId(id);
 
-        Validar(usuarioLogado, receita);
+        Validar(usuarioLogado, receita, requisicao);
 
         _mapper.Map(requisicao, receita);
 
@@ -44,7 +44,8 @@ public class AtualizarReceitaUseCase : IAtualizarReceitaUseCase {
 
     public static void Validar(
         Domain.Entidades.Usuario usuarioLogado,
-        Domain.Entidades.Receita receita
+        Domain.Entidades.Receita receita,
+        RequisicaoReceitaJson requisicao
     ){
         if(receita is null || receita.UsuarioId != usuarioLogado.Id) {
             var mensagensDeErro = new List<string> {
@@ -52,6 +53,15 @@ public class AtualizarReceitaUseCase : IAtualizarReceitaUseCase {
             };
             throw new ErrosDeValidacaoException(mensagensDeErro);
         }
+
+        var validator = new AtualizarReceitaValidator();
+        var resultado = validator.Validate(requisicao);
+
+        if (!resultado.IsValid) {
+            var mensagensDeErro = resultado.Errors.Select(erro => erro.ErrorMessage).ToList();
+            throw new ErrosDeValidacaoException(mensagensDeErro);
+        }
+
     }
 
 }

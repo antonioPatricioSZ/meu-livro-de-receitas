@@ -56,4 +56,12 @@ public class ReceitaRepositorio :
     public void Update(Receita receita) {
         _context.Receitas.Update(receita);
     }
+
+    public async Task Deletar(long receitaId) {
+        var receita = await _context.Receitas
+            .FirstOrDefaultAsync(receita => receita.Id == receitaId);
+        // não precisa usar o Include pois ao deletar uma receita deleta os ingregientes dessa
+        // receita tambem serao deletados
+        _context.Receitas.Remove(receita);
+    }
 }

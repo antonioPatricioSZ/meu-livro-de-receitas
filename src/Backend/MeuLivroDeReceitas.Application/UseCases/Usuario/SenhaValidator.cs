@@ -3,7 +3,6 @@ using MeuLivroDeReceitas.Exceptions;
 
 namespace MeuLivroDeReceitas.Application.UseCases.Usuario;
 
-
 public class SenhaValidator : AbstractValidator<string> {
 
     public SenhaValidator() {
