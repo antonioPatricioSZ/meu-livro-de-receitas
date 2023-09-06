@@ -1,12 +1,8 @@
-﻿using AutoMapper;
-using MeuLivroDeReceitas.Application.Servicos.Criptografia;
-using MeuLivroDeReceitas.Application.Servicos.Token;
-using MeuLivroDeReceitas.Domain.Repositorios.Usuario;
+﻿using MeuLivroDeReceitas.Application.Servicos.UsuarioLogado;
 using MeuLivroDeReceitas.Domain.Repositorios;
 using MeuLivroDeReceitas.Domain.Repositorios.Receita;
-using MeuLivroDeReceitas.Application.Servicos.UsuarioLogado;
-using MeuLivroDeReceitas.Exceptions.ExceptionsBase;
 using MeuLivroDeReceitas.Exceptions;
+using MeuLivroDeReceitas.Exceptions.ExceptionsBase;
 
 namespace MeuLivroDeReceitas.Application.UseCases.Receita.Deletar;
 
