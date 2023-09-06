@@ -33,7 +33,10 @@ public class Versao0000002 : Migration {
             .WithColumn("Produto").AsString(120).NotNullable()
             .WithColumn("Quantidade").AsString().NotNullable()
             .WithColumn("ReceitaId").AsInt64().NotNullable()
-                .ForeignKey("FK_Ingrediente_Receita_Id", "Receitas", "Id");
+                .ForeignKey("FK_Ingrediente_Receita_Id", "Receitas", "Id")
+                .OnDeleteOrUpdate(System.Data.Rule.Cascade);
+                // Estou dizendo que ao deletar a receita quero que os ingredientes
+                // associados a ela sejam deletados tbm
     }
 
 }
