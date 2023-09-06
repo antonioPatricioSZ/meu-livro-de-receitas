@@ -16,7 +16,7 @@ public class ReceitasController : ControllerBase {
     [ProducesResponseType(typeof(RespostaReceitaJson), StatusCodes.Status201Created)]
     public async Task<IActionResult> Registrar(
         [FromServices] IRegistrarReceitaUseCase useCase,
-        RequisicaoRegistrarReceitaJson requisicao
+        RequisicaoReceitaJson requisicao
     ){
 
         var resposta = await useCase.Executar(requisicao);
