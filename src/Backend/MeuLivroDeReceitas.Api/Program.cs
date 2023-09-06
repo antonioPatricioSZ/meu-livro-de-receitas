@@ -1,5 +1,7 @@
 using AutoMapper;
+using HashidsNet;
 using MeuLivroDeReceitas.Api.Filtros;
+using MeuLivroDeReceitas.Api.Filtros.Swagger;
 using MeuLivroDeReceitas.Api.Middleware;
 using MeuLivroDeReceitas.Application;
 using MeuLivroDeReceitas.Application.Servicos.Automapper;
@@ -19,7 +21,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+    options.OperationFilter<HashidsOperationFilter>();
+});
 
 
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -28,8 +32,11 @@ builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddMvc(options => options.Filters.Add(typeof(FiltrosDasExceptions)));
 // qualquer excecao que for lancada vai ser executada a classe FiltrosDasExceptions
 
+// builder.Services.AddAutoMapper(typeof(AutoMapperConfiguracao));
+// Usar isso se não quiser usar o HashIds
+
 builder.Services.AddScoped(provider => new MapperConfiguration(config => {
-    config.AddProfile(new AutoMapperConfiguracao());
+    config.AddProfile(new AutoMapperConfiguracao(provider.GetService<IHashids>()));
 }).CreateMapper());
 
 
