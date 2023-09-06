@@ -31,7 +31,7 @@ public class RegistrarReceitaUseCase : IRegistrarReceitaUseCase
     }
 
 
-    public async Task<RespostaReceitaJson> Executar(RequisicaoRegistrarReceitaJson requisicao)
+    public async Task<RespostaReceitaJson> Executar(RequisicaoReceitaJson requisicao)
     {
         Validator(requisicao);
 
@@ -49,7 +49,7 @@ public class RegistrarReceitaUseCase : IRegistrarReceitaUseCase
     }
 
 
-    private static void Validator(RequisicaoRegistrarReceitaJson requisicao)
+    private static void Validator(RequisicaoReceitaJson requisicao)
     {
 
         var validator = new RegistrarReceitaValidator();

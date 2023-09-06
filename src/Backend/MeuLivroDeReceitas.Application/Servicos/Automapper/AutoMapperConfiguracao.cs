@@ -26,8 +26,8 @@ public class AutoMapperConfiguracao : Profile {
         // Ele transforma RequisicaoRegistrarUsuarioJson em Usuário
 
 
-        CreateMap<Comunicacao.Requisicoes.RequisicaoRegistrarReceitaJson, Domain.Entidades.Receita>();
-        CreateMap<Comunicacao.Requisicoes.RequisicaoRegistrarIngredienteJson, Domain.Entidades.Ingrediente>();
+        CreateMap<Comunicacao.Requisicoes.RequisicaoReceitaJson, Domain.Entidades.Receita>();
+        CreateMap<Comunicacao.Requisicoes.RequisicaoIngredienteJson, Domain.Entidades.Ingrediente>();
             
     }
 
