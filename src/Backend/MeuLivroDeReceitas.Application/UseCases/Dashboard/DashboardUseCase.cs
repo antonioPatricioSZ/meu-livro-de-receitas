@@ -2,6 +2,7 @@
 using MeuLivroDeReceitas.Application.Servicos.UsuarioLogado;
 using MeuLivroDeReceitas.Comunicacao.Requisicoes;
 using MeuLivroDeReceitas.Comunicacao.Respostas;
+using MeuLivroDeReceitas.Domain.Extension;
 using MeuLivroDeReceitas.Domain.Repositorios.Receita;
 
 namespace MeuLivroDeReceitas.Application.UseCases.Dashboard;
@@ -51,14 +52,14 @@ public class DashboardUseCase : IDashboardUseCase {
 
         if(!string.IsNullOrWhiteSpace(requisicao.TituloOuIngrediente)) {
             receitaFiltradas = receitas.Where(
-                receita => receita.Titulo.Contains(requisicao.TituloOuIngrediente) ||
+                receita => receita.Titulo.IgnoreCaseEAcentos(requisicao.TituloOuIngrediente) ||
                 receita.Ingredientes.Any(
-                    ingrediente => ingrediente.Produto.Contains(requisicao.TituloOuIngrediente)
+                    ingrediente => ingrediente.Produto.IgnoreCaseEAcentos(requisicao.TituloOuIngrediente)
                 )
             ).ToList();
         }
 
-        return receitaFiltradas;
+        return receitaFiltradas.OrderBy(receitas => receitas.Titulo).ToList();
 
         // Então, como eu disse, se a gente está usando o exemplo de um chocolate, 
         // por exemplo, ou o título vai conter a palavra chocolate, então bolo de chocolate,
