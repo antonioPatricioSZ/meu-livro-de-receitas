@@ -21,7 +21,7 @@ public class MeuLivroReceitasWebApplicationFactory<TStartup> : WebApplicationFac
                 d => d.ServiceType == typeof(MeuLivroDeReceitasContext)
             );
 
-            if(descriptor != null ) {
+            if(descriptor is not null ) {
                 services.Remove(descriptor);
             }
 
