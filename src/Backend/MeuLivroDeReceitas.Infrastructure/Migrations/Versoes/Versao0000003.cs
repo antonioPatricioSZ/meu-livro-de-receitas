@@ -10,7 +10,7 @@ public class Versao0000003 : Migration {
 
     public override void Up() {
 
-        Alter.Table("receitas").AddColumn("TempoPreparo")
+        Alter.Table("Receitas").AddColumn("TempoPreparo")
             .AsInt32()
             .NotNullable()
             .WithDefaultValue(0);
