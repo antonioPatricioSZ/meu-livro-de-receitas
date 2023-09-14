@@ -41,7 +41,7 @@ public class LoginUseCase : ILoginUseCase {
 
         var usuario = await _usuarioReadOnlyRepositorio.Login(requisicao.Email, senhaCriptografada);
 
-        if(usuario == null) {
+        if(usuario is null) {
             throw new LoginInvalidoException();
         }
 
