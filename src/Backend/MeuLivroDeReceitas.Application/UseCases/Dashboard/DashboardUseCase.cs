@@ -41,6 +41,16 @@ public class DashboardUseCase : IDashboardUseCase {
         RequisicaoDashboardJson requisicao,
     IList<Domain.Entidades.Receita> receitas
     ){
+        // o filtro das receitas foi feito no useCase mas se fosse um filtro mais complexo seria
+        // melhor fazer direto no repositorio pois a busca no banco de dado sjá seria filtrada
+
+        // ao deletar o usuairo seria bom fazer um preocesso de fila (se for mtas informações)
+        // e mostrar uma tela avisando  que o usuario está sendo deletado se ele for válido e
+        // que enviaria um e-mail qdo terminasse
+
+        if (receitas is null) {
+            return new List<Domain.Entidades.Receita>();
+        }
 
         var receitaFiltradas = receitas;
 
