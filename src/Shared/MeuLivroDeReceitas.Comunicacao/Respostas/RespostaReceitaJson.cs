@@ -8,6 +8,7 @@ public class RespostaReceitaJson {
     public string Titulo { get; set; }
     public Categoria Categoria { get; set; }
     public string ModoPreparo { get; set; }
+    public int TempoPreparo { get; set; }
     public List<RespostaIngredienteJson> Ingredientes { get; set; }
 
 }

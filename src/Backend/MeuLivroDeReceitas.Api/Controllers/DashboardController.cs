@@ -1,4 +1,4 @@
-using MeuLivroDeReceitas.Api.Filtros;
+using MeuLivroDeReceitas.Api.Filtros.UsuarioLogado;
 using MeuLivroDeReceitas.Application.UseCases.Dashboard;
 using MeuLivroDeReceitas.Application.UseCases.Usuario.AlterarSenha;
 using MeuLivroDeReceitas.Comunicacao.Requisicoes;

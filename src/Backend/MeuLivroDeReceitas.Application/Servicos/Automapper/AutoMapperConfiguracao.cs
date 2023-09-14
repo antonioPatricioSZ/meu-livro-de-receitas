@@ -50,6 +50,8 @@ public class AutoMapperConfiguracao : Profile {
                     origem => origem.Ingredientes.Count    
                 )
             );
+
+        CreateMap<Domain.Entidades.Usuario, Comunicacao.Respostas.RespostaPerfilUsuarioJson>();
     }
 
 
